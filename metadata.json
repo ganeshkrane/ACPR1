@@ -1,0 +1,6 @@
+{
+  "name": "Approve Collective Purchase Requisition",
+  "description": "SAP Fiori application for managing, reviewing, and approving or rejecting collective purchase requisitions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

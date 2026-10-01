@@ -1,0 +1,22 @@
+[
+  {
+    "Werks": "0600",
+    "Name1": "Johannesburg Central Plant"
+  },
+  {
+    "Werks": "1000",
+    "Name1": "Durban Logistics Hub"
+  },
+  {
+    "Werks": "2000",
+    "Name1": "Cape Town Manufacturing"
+  },
+  {
+    "Werks": "3000",
+    "Name1": "Pretoria Processing Center"
+  },
+  {
+    "Werks": "4000",
+    "Name1": "Port Elizabeth Assembly"
+  }
+]

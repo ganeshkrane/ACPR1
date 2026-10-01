@@ -1,0 +1,34 @@
+[
+  {
+    "Ekgrp": "S67",
+    "Eknam": "Raw Materials & Supplies"
+  },
+  {
+    "Ekgrp": "S68",
+    "Eknam": "Machinery & Equipment"
+  },
+  {
+    "Ekgrp": "S70",
+    "Eknam": "Pumps, Valves & Piping"
+  },
+  {
+    "Ekgrp": "E01",
+    "Eknam": "Electrical & Instruments"
+  },
+  {
+    "Ekgrp": "M02",
+    "Eknam": "Maintenance & Operations"
+  },
+  {
+    "Ekgrp": "C05",
+    "Eknam": "Chemicals & Catalysts"
+  },
+  {
+    "Ekgrp": "P10",
+    "Eknam": "Packaging Materials"
+  },
+  {
+    "Ekgrp": "IT1",
+    "Eknam": "IT & Office Supplies"
+  }
+]

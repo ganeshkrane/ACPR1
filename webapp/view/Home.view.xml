@@ -1,0 +1,337 @@
+<mvc:View
+	controllerName="invictusbs.ui5.inventory.approve.collectivepr.controller.Home"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:table="sap.ui.table"
+	xmlns:l="sap.ui.layout">
+
+	<f:DynamicPage
+		id="pgApproveRequisitions"
+		headerExpanded="true"
+		showFooter="true"
+		fitContent="true"
+		class="sapUiNoContentPadding">
+
+		<!-- Dynamic Page Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Approve Collective Purchase Requisitions" level="H2" />
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+
+		<!-- Dynamic Page Header with FilterBar -->
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<fb:FilterBar
+					id="idFilterBar"
+					search="onGoPress"
+					clear="onClearFilters"
+					reset="onClearFilters"
+					showClearOnFB="true"
+					showRestoreButton="true"
+					showFilterConfiguration="true"
+					useToolbar="false">
+					<fb:filterGroupItems>
+						<!-- Purchase Requisition Filter -->
+						<fb:FilterGroupItem
+							name="Banfn"
+							label="Purchase Requisition"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idPrNumber"
+									width="100%"
+									placeholder="Select Requisition"
+									items="{PRFilter>/results}">
+									<core:Item key="{PRFilter>Banfn}" text="{PRFilter>Banfn}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+
+						<!-- Purchase Group Filter -->
+						<fb:FilterGroupItem
+							name="Ekgrp"
+							label="Purchase Group"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idPurchaseGroup"
+									width="100%"
+									placeholder="Select Group"
+									items="{Z_PR_APPROVAL_SRV>/PurchaseGroupSet}">
+									<core:Item key="{Z_PR_APPROVAL_SRV>Ekgrp}" text="{Z_PR_APPROVAL_SRV>Ekgrp} - {Z_PR_APPROVAL_SRV>Eknam}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+
+						<!-- Release Group Filter -->
+						<fb:FilterGroupItem
+							name="Frggr"
+							label="Release Group"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idReleaseGroup"
+									width="100%"
+									placeholder="Select Release Group"
+									items="{Z_PR_APPROVAL_SRV>/ReleaseGroupSet}">
+									<core:Item key="{Z_PR_APPROVAL_SRV>Frggr}" text="{Z_PR_APPROVAL_SRV>Frggr} - {Z_PR_APPROVAL_SRV>Frggt}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+
+						<!-- Release Code Filter -->
+						<fb:FilterGroupItem
+							name="Frgco"
+							label="Release Code"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idReleaseCode"
+									width="100%"
+									placeholder="Select Release Code"
+									items="{Z_PR_APPROVAL_SRV>/ReleaseCodeSet}">
+									<core:Item key="{Z_PR_APPROVAL_SRV>Frgco}" text="{Z_PR_APPROVAL_SRV>Frgco} - {Z_PR_APPROVAL_SRV>Frgct}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+
+						<!-- Plant Filter -->
+						<fb:FilterGroupItem
+							name="Werks"
+							label="Plant"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idPlant"
+									width="100%"
+									placeholder="Select Plant"
+									items="{Z_PR_APPROVAL_SRV>/PlantSet}">
+									<core:Item key="{Z_PR_APPROVAL_SRV>Werks}" text="{Z_PR_APPROVAL_SRV>Werks} - {Z_PR_APPROVAL_SRV>Name1}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+
+						<!-- Vendor Filter -->
+						<fb:FilterGroupItem
+							name="Lifnr"
+							label="Vendor"
+							groupName="Basic"
+							visibleInFilterBar="true">
+							<fb:control>
+								<MultiComboBox
+									id="idVendor"
+									width="100%"
+									placeholder="Select Vendor"
+									items="{Z_PR_APPROVAL_SRV>/VendorSet}">
+									<core:Item key="{Z_PR_APPROVAL_SRV>Lifnr}" text="{Z_PR_APPROVAL_SRV>Lifnr} - {Z_PR_APPROVAL_SRV>Name1}" />
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
+				</fb:FilterBar>
+			</f:DynamicPageHeader>
+		</f:header>
+
+		<!-- Dynamic Page Content: Growing sap.ui.table.Table -->
+		<f:content>
+			<VBox fitContainer="true" class="sapUiTinyMargin">
+				<table:Table
+					id="idTblRequisitions"
+					rows="{PRResult>/results}"
+					selectionMode="MultiToggle"
+					rowSelectionChange="onSelectionChange"
+					ariaLabelledBy="idTableTitle"
+					visibleRowCountMode="Auto"
+					minAutoRowCount="8"
+					threshold="25"
+					enableBusyIndicator="true"
+					alternateRowColors="true"
+					enableColumnReordering="true"
+					enableColumnFreeze="true"
+					noData="No purchase requisitions found">
+
+					<!-- Table Extension Header -->
+					<table:extension>
+						<OverflowToolbar style="Clear">
+							<Title id="idTableTitle" text="Purchase Requisitions to Approve ({PRResult>/totalCount})" level="H3" />
+							<ToolbarSpacer />
+							<Button
+								id="idBtnApprove"
+								text="Approve"
+								icon="sap-icon://accept"
+								type="Accept"
+								press="onApprove"
+								enabled="false" />
+							<Button
+								id="idBtnReject"
+								text="Reject"
+								icon="sap-icon://decline"
+								type="Reject"
+								press="onReject"
+								enabled="false" />
+						</OverflowToolbar>
+					</table:extension>
+
+					<!-- Columns Definition -->
+					<table:columns>
+
+						<!-- Requisition -->
+						<table:Column width="8.5rem" sortProperty="Banfn" filterProperty="Banfn">
+							<Label text="Requisition" />
+							<table:template>
+								<Link text="{PRResult>Banfn}" press="onRequisitionLinkPress" />
+							</table:template>
+						</table:Column>
+
+						<!-- Doc Type -->
+						<table:Column width="6rem" hAlign="Center" sortProperty="Bsart" filterProperty="Bsart">
+							<Label text="Doc Type" />
+							<table:template>
+								<Text text="{PRResult>Bsart}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Item -->
+						<table:Column width="4.5rem" hAlign="Center" sortProperty="Bnfpo" filterProperty="Bnfpo">
+							<Label text="Item" />
+							<table:template>
+								<Text text="{PRResult>Bnfpo}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Material -->
+						<table:Column width="8.5rem" sortProperty="Matnr" filterProperty="Matnr">
+							<Label text="Material" />
+							<table:template>
+								<Text text="{PRResult>Matnr}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Text Details -->
+						<table:Column width="16rem" sortProperty="Txz01" filterProperty="Txz01">
+							<Label text="Text Details" />
+							<table:template>
+								<Text text="{PRResult>Txz01}" wrapping="false" tooltip="{PRResult>Txz01}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Quantity -->
+						<table:Column width="7.5rem" hAlign="End" sortProperty="Menge">
+							<Label text="Quantity" />
+							<table:template>
+								<ObjectNumber
+									number="{
+										path: 'PRResult>Menge',
+										type: 'sap.ui.model.type.Float',
+										formatOptions: {
+											minFractionDigits: 3,
+											maxFractionDigits: 3,
+											groupingEnabled: true
+										}
+									}"
+									unit="{PRResult>Meins}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Net Value -->
+						<table:Column width="8.5rem" hAlign="End" sortProperty="Netpr">
+							<Label text="Net Value" />
+							<table:template>
+								<ObjectNumber
+									number="{
+										path: 'PRResult>Netpr',
+										type: 'sap.ui.model.type.Float',
+										formatOptions: {
+											minFractionDigits: 2,
+											maxFractionDigits: 2,
+											groupingEnabled: true
+										}
+									}"
+									unit="{PRResult>Waers}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Vendor -->
+						<table:Column width="13.5rem" sortProperty="VendorName1" filterProperty="VendorName1">
+							<Label text="Vendor" />
+							<table:template>
+								<Text
+									text="{
+										parts: ['PRResult>Lifnr', 'PRResult>VendorName1'],
+										formatter: '.formatVendor'
+									}"
+									wrapping="false" />
+							</table:template>
+						</table:Column>
+
+						<!-- Plant -->
+						<table:Column width="6rem" hAlign="Center" sortProperty="Werks" filterProperty="Werks">
+							<Label text="Plant" />
+							<table:template>
+								<Text text="{PRResult>Werks}" tooltip="{PRResult>PlantName1}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Delivery Date -->
+						<table:Column width="8rem" hAlign="Center" sortProperty="Badat">
+							<Label text="Delivery Date" />
+							<table:template>
+								<Text
+									text="{
+										path: 'PRResult>Badat',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											pattern: 'dd/MM/yyyy'
+										}
+									}" />
+							</table:template>
+						</table:Column>
+
+						<!-- Attachments -->
+						<table:Column width="7rem" hAlign="Center">
+							<Label text="Attachments" />
+							<table:template>
+								<HBox justifyContent="Center" alignItems="Center">
+									<Button
+										icon="sap-icon://attachment"
+										type="Transparent"
+										text="{PRResult>Count}"
+										visible="{= !!${PRResult>AttaId} }"
+										press="onAttachmentPress" />
+									<Text
+										text="None"
+										visible="{= !${PRResult>AttaId} }" />
+								</HBox>
+							</table:template>
+						</table:Column>
+
+					</table:columns>
+
+				</table:Table>
+			</VBox>
+		</f:content>
+
+		<!-- Dynamic Page Footer -->
+		<f:footer>
+			<OverflowToolbar>
+				<ToolbarSpacer />
+				<Label text="Total Net Value:" design="Bold" class="sapUiTinyMarginEnd" />
+				<ObjectNumber id="idTotalNetValue" number="0.00" unit="ZAR" emphasized="true" state="Information" />
+				<ToolbarSpacer />
+			</OverflowToolbar>
+		</f:footer>
+
+	</f:DynamicPage>
+
+</mvc:View>
